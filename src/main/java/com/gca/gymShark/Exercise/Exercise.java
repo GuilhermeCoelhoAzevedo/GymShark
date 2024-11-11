@@ -1,41 +1,46 @@
 package com.gca.gymShark.Exercise;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.gca.gymShark.TemplateItem.TemplateItem;
-import com.gca.gymShark.WorkoutExercise.WorkoutExercise;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.gca.gymShark.ExerciseCategory.ExerciseCategory;
 import jakarta.persistence.*;
 
-import java.util.Set;
-
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "exerciseId")
 @Entity
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long exerciseId;
 
     private String name;
 
     private String instructions;
 
-    //@JsonManagedReference
-    @JsonIgnore
-    @OneToMany(mappedBy = "exercise")
-    private Set<TemplateItem> templateItems;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "exercise")
-    private Set<WorkoutExercise> workoutExercises;
+    @ManyToOne
+    @JoinColumn(name = "exerciseCategoryId", nullable=false)
+    private ExerciseCategory exerciseCategory;
 
     public Exercise() {
     }
 
-    public long getId() {
-        return id;
+    public Exercise(String name, ExerciseCategory exerciseCategory) {
+        this(name, exerciseCategory, "");
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Exercise(String name, ExerciseCategory exerciseCategory, String instructions) {
+        this.name = name;
+        this.instructions = instructions;
+        this.exerciseCategory = exerciseCategory;
+    }
+
+    public long getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(long exerciseId) {
+        this.exerciseId = exerciseId;
     }
 
     public String getName() {
@@ -54,19 +59,11 @@ public class Exercise {
         this.instructions = instructions;
     }
 
-    public Set<TemplateItem> getTemplateItems() {
-        return templateItems;
+    public ExerciseCategory getExerciseCategory() {
+        return exerciseCategory;
     }
 
-    public void setTemplateItems(Set<TemplateItem> templateItems) {
-        this.templateItems = templateItems;
-    }
-
-    public Set<WorkoutExercise> getWorkoutExercises() {
-        return workoutExercises;
-    }
-
-    public void setWorkoutExercises(Set<WorkoutExercise> workoutExercises) {
-        this.workoutExercises = workoutExercises;
+    public void setExerciseCategory(ExerciseCategory exerciseCategory) {
+        this.exerciseCategory = exerciseCategory;
     }
 }

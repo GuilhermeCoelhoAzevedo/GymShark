@@ -18,38 +18,43 @@ public class ExerciseController {
         this.exerciseService = exerciseService;
     }
 
+    @CrossOrigin
     @Operation(summary = "Retrieve all exercises")
     @GetMapping
     public ResponseEntity<List<Exercise>> getAllExercises(){
-        List<Exercise> exercises = exerciseService.getAllExercises();
+        List<Exercise> exercises = exerciseService.getAll();
         return new ResponseEntity<>(exercises, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @Operation(summary = "Retrieve exercise by Id")
     @GetMapping("/{id}")
     public ResponseEntity<Exercise> getExercise(@PathVariable long id) {
-        Exercise exercise = exerciseService.getExercise(id);
+        Exercise exercise = exerciseService.get(id);
         return new ResponseEntity<>(exercise, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @Operation(summary = "Create exercise")
     @PostMapping
-    public ResponseEntity<Exercise> createExercise(@RequestBody Exercise exercise) {
-        Exercise createdExercise = exerciseService.createExercise(exercise);
+    public ResponseEntity<Exercise> createExercise(@ModelAttribute Exercise exercise) {
+        Exercise createdExercise = exerciseService.create(exercise);
         return new ResponseEntity<>(createdExercise, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @Operation(summary = "Update exercise by Id")
     @PutMapping("/{id}")
-    public ResponseEntity<Exercise> updateExercise(@PathVariable long id, @RequestBody Exercise exercise) {
-        Exercise updatedExercise = exerciseService.updateExercise(id, exercise);
+    public ResponseEntity<Exercise> updateExercise(@PathVariable long id, @ModelAttribute Exercise exercise) {
+        Exercise updatedExercise = exerciseService.update(id, exercise);
         return new ResponseEntity<>(updatedExercise, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @Operation(summary = "Delete exercise by Id")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteExercise(@PathVariable long id) {
-        exerciseService.deleteExercise(id);
+        exerciseService.delete(id);
         return new ResponseEntity<>("Exercise successfully deleted!", HttpStatus.OK);
     }
 }

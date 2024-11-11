@@ -11,19 +11,19 @@ public class ExerciseService {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public List<Exercise> getAllExercises(){
+    public List<Exercise> getAll(){
         return exerciseRepository.findAll();
     }
 
-    public Exercise getExercise(long id) {
+    public Exercise get(long id) {
         return exerciseRepository.findById(id).orElseThrow(ExerciseNotFoundException::new);
     }
 
-    public Exercise createExercise(Exercise exercise) {
+    public Exercise create(Exercise exercise) {
         return exerciseRepository.save(exercise);
     }
 
-    public Exercise updateExercise(long id, Exercise exercise) {
+    public Exercise update(long id, Exercise exercise) {
         // Validate existence of the ID before updating
         if (!exerciseRepository.existsById(id)) {
             throw new ExerciseNotFoundException();
@@ -32,7 +32,7 @@ public class ExerciseService {
         return exerciseRepository.save(exercise);
     }
 
-    public void deleteExercise(long id) {
+    public void delete(long id) {
         // Validate existence of the ID before deleting
         if (!exerciseRepository.existsById(id)) {
             throw new ExerciseNotFoundException();
